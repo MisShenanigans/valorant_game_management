@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- This meta tag ensures that the website renders correctly across different device sizes, enhancing mobile responsiveness. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the external CSS stylesheet. Uncomment if you wish to customize or add styling. -->
+    <link rel="stylesheet" href="styles.css">  
+
+    <title>Database Application</title>
+</head>
+<body>
+    <!-- ===================================================================================== -->
+    <!-- Display the current status of the database connection. 
+         !!HERE TO HELP U DEBUGGING, NOT REQUIRED IN YOUR OWN PROJECT!!
+         -->
+    <h1>Database Connection Status: 
+        <!-- An in-line placeholder to display connection status. -->
+        <span id="dbStatus"> </span>
+        <!-- A loading GIF, will be hided once get the status. -->
+        <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
+    </h1>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Select a Table</h2>
+    <form id="tableSelection">
+        <label for="tableSelect">Choose a table:</label>
+        <select id="tableSelect">
+            <option value="Demotable">Demotable</option>
+            <option value="Player">Player</option>
+            <option value="Gun1">Gun1</option>
+            <option value="Gun2">Gun2</option>
+            <option value="WeaponStats">WeaponStats</option>
+            <option value="Map1">Map1</option>
+            <option value="Map2">Map2</option>
+            <option value="Agent">Agent</option>
+            <option value="Region1">Region1</option>
+            <option value="Region2">Region2</option>
+            <option value="Match">Match</option>
+            <option value="PlayedInMatch">PlayedInMatch</option>
+            <option value="Round">Round</option>
+            <option value="Team">Team</option>
+            <option value="ProPlayer">ProPlayer</option>
+            <option value="Mains">Mains</option>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Show Table Data</h2>
+    <table id="tableSelectionTable" border="1">
+        <thead>
+            <tr id="tableHeaders"></tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Select, Insert or Update Values in a Table</h2>
+
+    <!-- Table selection for insert and update -->
+    <form id="insertUpdateForm">
+        <label for="insertUpdateTableSelect">Choose a table:</label>
+        <select id="insertUpdateTableSelect">
+            <option value="Demotable">Demotable</option>
+            <option value="Player">Player</option>
+            <option value="Gun1">Gun1</option>
+            <option value="Gun2">Gun2</option>
+            <option value="WeaponStats">WeaponStats</option>
+            <option value="Map1">Map1</option>
+            <option value="Map2">Map2</option>
+            <option value="Agent">Agent</option>
+            <option value="Region1">Region1</option>
+            <option value="Region2">Region2</option>
+            <option value="Match">Match</option>
+            <option value="PlayedInMatch">PlayedInMatch</option>
+            <option value="Round">Round</option>
+            <option value="Team">Team</option>
+            <option value="ProPlayer">ProPlayer</option>
+            <option value="Mains">Mains</option>
+        </select>
+        <button type="submit">Load Table Fields</button>
+    </form>
+    
+    <!-- Insert form -->
+    <div id="dynamicInsertFormContainer" style="display: none;">
+        <h3>Insert or Select Values</h3>
+        <form id="dynamicInsertForm"></form>
+        <button id="submitInsertForm" type="submit">Insert</button>
+        <button id="submitSelectForm" type="submit">Select</button>
+        <div id="insertResultMsg"></div>
+        <div id="selectResultContainer">
+            <h4>Query Result</h4>
+            <div id="selectResultMsg"></div>
+            <table id="selectResultTable" border="1"></table>
+        </div>
+    </div>    
+    
+    <!-- Update form -->
+    <div id="dynamicUpdateFormContainer" style="display: none;">
+        <h3>Update Values</h3>
+        <form id="dynamicUpdateForm"></form>
+        <button id="submitUpdateForm" type="submit">Update</button>
+        <div id="updateResultMsg"></div>
+    </div>    
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Delete Values in a Table</h2>
+    Please input the RiotID of the player you wish to delete <br><br>
+
+    <!-- Delete form -->
+    <form id="deleteForm">
+        <label for="deleteRiotID">RiotID: </label>
+        <input type="text" id="deleteRiotID" placeholder="Enter RiotID to delete" required>
+        <button id="submitDeleteForm" type="submit">Delete</button>
+    </form>
+    <div id="deleteResultMsg"></div>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Projection using WHERE in a Table</h2>
+    Please select the ability you wish to see <br><br>
+
+    <h2>Projection Query</h2>
+
+    <!-- Projection form -->
+    <form id="projectionForm">
+        <label for="projectionAgentSelect">Choose Abilities:</label>
+        <div id="projectionAgentSelect">
+            <label><input type="checkbox" value="eAbility" /> eAbility</label>
+            <label><input type="checkbox" value="qAbility" /> qAbility</label>
+            <label><input type="checkbox" value="cAbility" /> cAbility</label>
+            <label><input type="checkbox" value="ultimateAbility" /> Ultimate Ability</label>
+        </div>
+        <button id="submitProjectionForm" type="submit">Display Abilities</button>
+    </form>
+    <br>
+    <div id="projectionResultContainer"></div>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Join WeaponStats and Player</h2>
+    Displaying the RiotID, Gun Name, Headshot Percentage and Rank <br><br>
+
+    <!-- Join form -->
+    <form id="joinForm">
+        <label for="headshotThreshold">Enter Headshot Percentage (n):</label>
+        <input type="number" id="headshotThreshold" name="headshotThreshold" required>
+        <button id="submitJoinForm" type="submit">Display Results</button>
+    </form>
+    
+    <!-- Container for displaying join results -->
+    <div id="joinResultContainer" style="display: none;">
+        <h3>Join Results</h3>
+        <table id="joinResultTable" border="1">
+            <thead>
+                <tr>
+                    <th>Riot ID</th>
+                    <th>Gun Name</th>
+                    <th>Headshot Percentage</th>
+                    <th>Rank</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Display Total Earninings Per Team (GROUP BY)</h2>
+
+    <!-- Group By form -->
+    <form id="groupByForm">
+        <button id="submitGroupByForm" type="submit">Display Results</button>
+    </form>
+    <br>
+    <div id="groupByResultContainer"></div>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Display TotalKills and TotalDeaths per Agent (GROUP BY HAVING)</h2>
+    Displaying sum of kills and deaths per agent where TotalDeaths is less than Death Threshold
+    <br><br>
+
+    <!-- Group By Having form -->
+    <form id="groupByHavingForm">
+        <label for="deathThreshold">Enter Death Threshold (n):</label>
+        <input type="number" id="deathThreshold" placeholder="Enter n" required />
+        <button id="submitGroupByHavingForm" type="submit">Display Results</button>
+    </form>
+    
+    <!-- Results container -->
+    <div id="groupByHavingResultContainer" style="display: none;">
+        <h3>Group By Results</h3>
+        <table id="groupByHavingResultTable" border="1">
+            <thead>
+                <tr>
+                    <th>Agent Name</th>
+                    <th>Total Kills</th>
+                    <th>Total Deaths</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Display Average Spike Planted Count Per Match (Nested Query)</h2>
+
+    <!-- Nested form -->
+    <form id="nestedForm">
+        <button id="submitNestedForm" type="submit">Display Results</button>
+    </form>
+    
+    <!-- Results container -->
+    <div id="nestedResultContainer" style="display: none;">
+        <h3>Average Spike Planted Count</h3>
+        <p id="nestedQueryResult"></p>
+    </div>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Divide Matches by RiotIDs</h2>
+
+    <!-- Input box for RiotIDs -->
+    <form id="divideForm">
+        <label for="riotIdsInput">Enter RiotIDs (comma-separated):</label>
+        <input type="text" id="riotIdsInput" placeholder="e.g., ABC, XYZ, PQR" required />
+        <button type="submit">Divide Matches</button>
+    </form>
+
+    <!-- Display Results -->
+    <div id="divideResultContainer" style="display: none;">
+        <h3>Division Result</h3>
+        <table id="divideResultTable" border="1">
+            <thead>
+                <tr id="divideTableHeaders"></tr>
+            </thead>
+            <tbody id="divideTableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- ===================================================================================== -->
+    <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
+    <script src="scripts.js"></script>
+</body>
+</html>

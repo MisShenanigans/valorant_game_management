@@ -1,12 +1,4 @@
-# Team Members
-
-Group 106
-
-| Name | Student Number | CS Alias | Email |
-| --- | --- | --- | --- |
-| Ankur Bhardwaj | 83640458 | y8e4o | ankurb75@gmail.com |
-| Divy Patel | 82174020 | s2x3p | divy07ubc@gmail.com |
-| Oliver Shen | 32805475 | a3e5k | oliverdsheny@gmail.com |
+## This is a student project for an undergraduate database class
 
 # Project Summary
 
